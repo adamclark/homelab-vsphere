@@ -1,1 +1,36 @@
+The OpenShift vSphere template uses properties which aren't supported in standalone ESXi. So instead use the ISO image and customise the install command with the ignition config required for each node type.
 
+1. Download the rhcos-4.3.8-x86_64-installer.x86_64.iso and rhcos-4.3.8-x86_64-metal.x86_64.raw.gz from https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.3/latest/
+
+2. Extract the ISO to a temporary location:
++
+```
+sudo mount rhcos-410.8.20190425.1-installer.iso /mnt/
+mkdir /tmp/rhcos
+rsync -a /mnt/* /tmp/rhcos/
+```
+
+3. Modify the boot enter and create a bootstrap ISO
++
+```
+cd /tmp/rhcos
+vi isolinux/isolinux.cfg
+```
+Modify the boot entry at the end of the file similar to this (add everyting after `coreos.inst=yes`):
++
+```
+label linux
+  menu label ^Install RHEL CoreOS
+  kernel /images/vmlinuz
+  append initrd=/images/initramfs.img nomodeset rd.neednet=1 coreos.inst=yes coreos.inst.install_dev=sda coreos.inst.image_url=http://ocp4helper:8080/install/bios.raw.gz coreos.inst.ignition_url=http://ocp4helper:8080/ignition/bootstrap.ign
+```
+
+4. Create a bootstrap ISO
++
+```
+sudo mkisofs -U -A "RHCOS-x86_64" -V "RHCOS-x86_64" -volset "RHCOS-x86_64" -J -joliet-long -r -v -T -x ./lost+found -o /tmp/rhcos-4.3.8-x86_64-installer.x86_64.bootstrap.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot .
+```
+
+5. Repeat steps 3 and 4 replacing bootstrap with master and then worker.
+
+6. Upload the three ISOs to the vSphere datastore containing ISO files.
