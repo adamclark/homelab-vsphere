@@ -1,0 +1,9 @@
+1. Create a ocp4helper node - https://github.com/christianh814/ocp4-upi-helpernode
+
+2. On the helper node:
++
+```
+systemctl disable dhcpd
+```
+
+3. Clone this repo on the helper node.
