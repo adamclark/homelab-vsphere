@@ -1,0 +1,4 @@
+192.168.1.145	api.ocp4.example.lab api-int.ocp4.example.lab
+192.168.1.221	etcd-0.ocp4.example.lab
+192.168.1.222	etcd-1.ocp4.example.lab
+192.168.1.223	etcd-2.ocp4.example.lab
