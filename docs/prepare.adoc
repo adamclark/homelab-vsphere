@@ -1,4 +1,4 @@
-1. Create a ocp4helper node - https://github.com/christianh814/ocp4-upi-helpernode
+1. Create a ocp4helper node - https://github.com/RedHatOfficial/ocp4-helpernode
 
 2. On the helper node:
 +
