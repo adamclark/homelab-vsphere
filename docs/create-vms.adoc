@@ -1,7 +1,9 @@
 1. Create VMs for 1 bootstrap node, 3 master nodes and 2 worker nodes with sizing as specified in the OpenShift docs.
 
-2. Configure the CD drive for each VM to load their respective customised ISO files created earlier and uploaded to the ISO datastore.
+1. Configure the CD drive for each VM to load their respective customised ISO files created earlier and uploaded to the ISO datastore.
 
-3. Under `VM Options` set `Latency Sensitivity` to `High`.
+1. Under `VM Options` set `Latency Sensitivity` to `High`.
 
-4. Boot the VMs and select the option to install RHCOS.
+1. Configure the MAC address to align with DHCP static assignments.
+
+1. Boot the VMs and select the option to install RHCOS.
