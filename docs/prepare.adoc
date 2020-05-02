@@ -7,3 +7,5 @@ systemctl disable dhcpd
 ```
 
 3. Clone this repo on the helper node.
+
+4. Create ~/ocp4-pull-secret.json

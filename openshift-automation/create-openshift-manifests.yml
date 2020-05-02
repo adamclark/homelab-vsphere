@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vsphere-homelab.yml
+  tasks:
+    - block:
+        - name: Create OCP4 Manifests
+          include_role: name=create-ocp4-manifests

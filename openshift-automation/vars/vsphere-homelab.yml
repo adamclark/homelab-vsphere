@@ -1,0 +1,69 @@
+---
+openshift_installer_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.3.8/openshift-install-linux-4.3.8.tar.gz
+openshift_client_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.3.8/openshift-client-linux-4.3.8.tar.gz
+cluster_id: ocp4
+cluster_domain: example.lab
+ssh_key_file: ~/.ssh/helper_rsa.pub
+pull_secret_file: ~/ocp4-pull-secret.json
+ignition_base_url: http://ocp4helper:8080/ignition
+ignition_file_destination: /var/www/html/ignition/
+folder:
+network: VM Network
+nfs:
+  ip: 192.168.1.145
+  directory: /var/nfsshare
+machines:
+- name: bootstrap
+  host: 192.168.1.220
+  template: worker-bootstrap-template
+  cores: 4
+  ram: 8192
+  datastore: datastore1
+  mac: 00:50:56:9E:47:BD
+  disk: 120G
+  type: bootstrap
+- name: master0
+  host: 192.168.1.221
+  template: master-template
+  cores: 4
+  ram: 16384
+  datastore: datastore1
+  mac: 52:54:00:E7:9D:67
+  disk: 120G
+  type: master
+- name: master1
+  host: 192.168.1.222
+  template: master-template
+  cores: 4
+  ram: 16384
+  datastore: datastore1
+  mac: 52:54:00:80:16:23
+  disk: 120G
+  type: master
+- name: master2
+  host: 192.168.1.223
+  template: master-template
+  cores: 4
+  ram: 16384
+  datastore: datastore1
+  mac: 52:54:00:D5:1C:39
+  disk: 120G
+  type: master
+- name: worker0
+  host: 192.168.1.211
+  template: worker-bootstrap-template
+  cores: 4
+  ram: 16384
+  datastore: datastore1
+  mac: 52:54:00:F4:26:A1
+  disk: 120G
+  type: worker
+- name: worker1
+  host: 192.168.1.212
+  template: worker-bootstrap-template
+  cores: 4
+  ram: 16384
+  datastore: datastore1
+  mac: 52:54:00:82:90:00
+  disk: 120G
+  type: worker
