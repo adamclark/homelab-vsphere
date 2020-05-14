@@ -1,0 +1,5 @@
+Locally:
+
+```
+ansible-playbook create-nfs-registry-storage.yml
+```

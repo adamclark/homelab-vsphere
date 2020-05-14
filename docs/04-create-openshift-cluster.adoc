@@ -1,0 +1,7 @@
+Locally:
+
+```
+ansible-playbook create-ocp4-manifests.yml
+```
+
+Start the VMs

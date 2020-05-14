@@ -1,0 +1,17 @@
+
+On `ocp4heler`:
+
+```
+for i in {1..20}; do mkdir pv$i; done
+for i in {1..20}; do chmod 777 pv$i; done
+```
+
+Locally:
+
+```
+for i in {1..5}; do ansible-playbook create-pv.yml --extra-vars "pv_name=pv$i pv_size=1Gi pv_access_mode=ReadWriteMany"; done
+for i in {6..10}; do ansible-playbook create-pv.yml --extra-vars "pv_name=pv$i pv_size=5Gi pv_access_mode=ReadWriteMany"; done
+for i in {11..14}; do ansible-playbook create-pv.yml --extra-vars "pv_name=pv$i pv_size=10Gi pv_access_mode=ReadWriteMany"; done
+for i in {15..17}; do ansible-playbook create-pv.yml --extra-vars "pv_name=pv$i pv_size=20Gi pv_access_mode=ReadWriteMany"; done
+for i in {18..20}; do ansible-playbook create-pv.yml --extra-vars "pv_name=pv$i pv_size=50Gi pv_access_mode=ReadWriteMany"; done
+```
