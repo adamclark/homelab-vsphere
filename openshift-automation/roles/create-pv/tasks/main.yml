@@ -1,0 +1,13 @@
+---
+- block:
+    - include: setup.yml
+
+    - name: Create the NFS PV yaml
+      template:
+        src: ../templates/nfs-pv.yaml.j2
+        dest: "{{ tmpdir }}/nfs-pv.yaml"
+
+    - name: Create the NFS PV
+      shell: "oc create -f {{ tmpdir }}/nfs-pv.yaml"  
+
+    - include: cleanup.yml 
