@@ -11,7 +11,7 @@ folder:
 network: VM Network
 nfs:
   ip: 192.168.1.145
-  directory: /var/nfsshare
+  path: /export
 machines:
 - name: bootstrap
   host: 192.168.1.220

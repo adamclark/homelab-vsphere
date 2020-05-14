@@ -1,0 +1,39 @@
+---
+- block:
+    - include: setup.yml
+
+    - name: Create the NFS PV yaml
+      template:
+        src: ../templates/nfs-registry-pv.yaml.j2
+        dest: "{{ tmpdir }}/nfs-registry-pv.yaml"
+
+    - name: Create the NFS PV
+      shell: "oc create -f {{ tmpdir }}/nfs-registry-pv.yaml"
+   
+    - name: Create NFS PVC
+      shell: "oc create -f {{playbook_dir}}/roles/create-registry-nfs-storage/files/nfs-registry-pvc.yaml"
+
+    - name: Cat patch registry storage file
+      shell: "cat {{playbook_dir}}/roles/create-registry-nfs-storage/files/patch-storage.json"
+      register: cat_storage_out
+    - name: Patch registry storage as PVC
+      shell: "oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{{cat_storage_out.stdout}}'"
+
+    - name: Cat patch registry managementstate
+      shell: "cat {{playbook_dir}}/roles/create-registry-nfs-storage/files/patch-managementstate.json"
+      register: cat_management_out
+    - name: Patch registry managementstate
+      shell: "oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{{cat_management_out.stdout}}'"
+
+    - name: Wait for platform to act on regsitry changes
+      pause:
+        seconds: 15
+
+    - name: Wait until none of the cluster operators are Progressing
+      shell: oc get co --no-headers | awk '{ print $4 }' | uniq
+      register: waiting_for_progressing
+      until: waiting_for_progressing.stdout == 'False'
+      retries: 10
+      delay: 60   
+
+    - include: cleanup.yml 
